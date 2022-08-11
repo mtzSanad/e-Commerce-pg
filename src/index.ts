@@ -1,8 +1,18 @@
-const i = 1;
-console.log("Hiskdfj a");
+import express, { Application, Request, Response } from "express";
 
-let number;
+const PORT = 3000;
 
-function sum(x: number) {
-  return 1;
-}
+const app: Application = express();
+
+//Adding route
+app.get("/", (req: Request, res: Response) => {
+  res.json({
+    message: "Hello 🤖",
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server started on ${PORT}`);
+});
+
+export default app;
