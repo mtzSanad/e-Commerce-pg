@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import error_middleware from './middleware/error.middleware';
 import config from './config';
+import database from './database';
 
 const PORT = config.PORT;
 
@@ -30,6 +31,20 @@ const limiter = rateLimit({
 
 // Apply the rate limiting middleware to all requests
 app.use(limiter);
+
+//Database test
+database.connect().then((client) => {
+  client
+    .query('Select now()')
+    .then((res) => {
+      console.log('=================>' + JSON.stringify(res.rows));
+      client.release();
+    })
+    .catch((error) => {
+      console.log(error);
+      client.release();
+    });
+});
 
 //Adding route
 app.get('/', (req: Request, res: Response) => {
